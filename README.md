@@ -2,5 +2,5 @@
 Building a project for class 
 
 
-Changing test.
+I made a change.
 
