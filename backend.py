@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flaskext.mysql import MySQL
+from datetime import datetime
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
@@ -21,8 +22,9 @@ def log():
     conn.commit()
     data = cursor.fetchall()
     (key, word, sentance) = data[0]
+    now = datetime.now()
     file1 = open("log.txt","w+")
-    file1.write(sentance)
+    file1.write(f"This was pulled from the database {sentance} and it was done at {now}")
     return render_template('index.html')
 
 if __name__ == '__main__':
