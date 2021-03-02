@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
 app.config['MYSQL_USER'] = 'Osama'
 app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
-app.config['MYSQL_DATABASE_DB'] = 'TestDB'
+app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
 conn = mysql.connect()
@@ -18,13 +18,9 @@ def hello():
 
 @app.route('/log')
 def log():
-    cursor.execute("SELECT * FROM TestTable WHERE id = 1;")
+    cursor.execute("SELECT Lang_Desc FROM Lang_Ref;")
     conn.commit()
-    data = cursor.fetchall()
-    (key, word, sentance) = data[0]
-    now = datetime.now()
-    file1 = open("log.txt","w+")
-    file1.write(f"This was pulled from the database {sentance} and it was done at {now}")
+    data = cursor.fetchall() # This is a list of two tuples, the two tuples are the languages from the database 
     return render_template('index.html')
 
 if __name__ == '__main__':
