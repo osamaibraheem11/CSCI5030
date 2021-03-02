@@ -15,14 +15,9 @@ cursor = conn.cursor()
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
-
-@app.route('/log')
-def log():
     cursor.execute("SELECT Lang_Desc FROM Lang_Ref;")
     conn.commit()
     language_list = logic.tuple2list(cursor.fetchall()) # Uses function from logic file to convert tuple to list 
     return render_template('index.html', language_list = language_list)
-
 if __name__ == '__main__':
     app.run(debug = True)
