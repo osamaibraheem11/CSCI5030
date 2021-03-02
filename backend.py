@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from flaskext.mysql import MySQL
 from datetime import datetime
+import logic
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
@@ -20,8 +21,8 @@ def hello():
 def log():
     cursor.execute("SELECT Lang_Desc FROM Lang_Ref;")
     conn.commit()
-    data = cursor.fetchall() # This is a list of two tuples, the two tuples are the languages from the database 
-    return render_template('index.html')
+    language_list = logic.tuple2list(cursor.fetchall()) # Uses function from logic file to convert tuple to list 
+    return render_template('index.html', language_list = language_list)
 
 if __name__ == '__main__':
     app.run(debug = True)
