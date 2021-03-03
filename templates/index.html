@@ -10,6 +10,7 @@
 				alert(myText);
 			}
 		</script>
+		
     </head>
     <body>
 		<h1 style="font-size:25px; color:whitesmoke; background-color:teal; 
@@ -21,10 +22,12 @@
 		
 		Language: 
 		<select name="language" id="language">
-			<option value="English">English</option>
-			<option value="French">French</option>
+		{% for language in language_list %}
+			<option value="{{language}}">{{language}}</option>
+		{% endfor %}
 		</select>
 		<br><br>
+		
 		<button onclick = showAlert()>
 			<a href="http://127.0.0.1:5000/log">Okay</a>
 		</button>
