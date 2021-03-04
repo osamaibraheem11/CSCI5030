@@ -15,11 +15,9 @@ cursor = conn.cursor()
 
 @app.route('/', methods =["GET", "POST"])
 def hello():
-    cursor.execute("SELECT Lang_Desc FROM Lang_Ref;")
-    conn.commit()
-    language_list = logic.tuple2list(cursor.fetchall()) # Uses function from logic file to convert tuple to list
+    language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
-    return render_template('index.html', language_list = language_list,part_of_speech_list=part_of_speech_list)
+    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list)
 
 @app.route('/Query', methods =["GET", "POST"])
 def Query():
