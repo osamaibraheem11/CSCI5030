@@ -13,11 +13,21 @@ mysql = MySQL(app)
 conn = mysql.connect()
 cursor = conn.cursor()
 
-@app.route('/')
+@app.route('/', methods =["GET", "POST"])
 def hello():
     cursor.execute("SELECT Lang_Desc FROM Lang_Ref;")
     conn.commit()
     language_list = logic.tuple2list(cursor.fetchall()) # Uses function from logic file to convert tuple to list 
     return render_template('index.html', language_list = language_list)
+
+@app.route('/test', methods =["GET", "POST"])
+def test():
+    language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
+    language_selected = request.form.get('language')
+    Lang_ID = logic.SQLQuery(f"SELECT Lang_ID FROM Lang_Ref WHERE Lang_Desc = '{language_selected}';")
+    part_of_speech_list = logic.SQLQuery(f"SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = '{Lang_ID[0]}';")
+    return render_template('index.html', language_list = language_list, part_of_speech_list = part_of_speech_list)
+
+
 if __name__ == '__main__':
     app.run(debug = True)
