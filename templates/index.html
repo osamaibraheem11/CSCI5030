@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
 		<meta charset="utf-8">
@@ -16,6 +16,13 @@
 			<pre> MULTILINGUAL <br><sub style="font-size:40px; color:whitesmoke; font-family:verde;">DICTIONARY </sub>      
                                                 <sup> English | Spanish | French | German | Japanese </sup></pre>
 		</h1>
+		<div style="text-align:center">
+			<form>
+			<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
+				pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}" 
+			title="Word should contain Characters, punctuations and spaces only" required>
+			<button type="submit" >Submit</button> 
+			</form></div> 
 		<form method="POST">
 		Language: 
 		<select name="language" id="language">
@@ -31,6 +38,14 @@
 			{% endfor %}
 			</select>
 		</form>
+		<br><br>
+
+		<select name="partOfSpeech" id="partOfSpeech">
+			<option value="Noun">Noun</option>
+			<option value="Verb">Verb</option>
+			<option value="Adjective">Adjective</option>
+			<option value="Adverb">Adverb</option>
+		</select>
 		<br><br>
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
