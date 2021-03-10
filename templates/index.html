@@ -1,21 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <meta charset="utf-8">
-       <meta name="viewport" content="width=divice-width, initial-scale=1">
-       <title> SLU Multilingual Dictionary </title>
-       <script>
-        function showAlert() {
-          var myText = "Log has been written too!";
-          alert (myText);
-        }
-        </script>
-      </head>
-      <body>
-	  <h1 style="font-size:25px; color:whitesmoke; background-color:teal; 
-	               font-family:verde; 
-				   text-align:left;"><pre> MULTILINGUAL <br><sub style="font-size:40px; color:whitesmoke; font-family:verde;">DICTIONARY </sub>      
-                                                  <sup> English | Spanish | French | German | Japanese </sup></pre></h1>
-				   <button onclick = showAlert()><a href="http://127.0.0.1:5000/log">Okay</a></button>
-    </body>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=divice-width, initial-scale=1">
+		<title> SLU Multilingual Dictionary </title>
+		<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>		
+    </head>
+    <body>
+		<h1 style="font-size:25px; color:whitesmoke; background-color:teal; 
+	            font-family:verde; 
+				text-align:left;">
+			<pre> MULTILINGUAL <br><sub style="font-size:40px; color:whitesmoke; font-family:verde;">DICTIONARY </sub>      
+                                                <sup> English | Spanish | French | German | Japanese </sup></pre>
+		</h1>
+		<div style="text-align:center">
+			<form>
+			<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
+				pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}" 
+			title="Word should contain Characters, punctuations and spaces only" required>
+			<button type="submit" >Submit</button> 
+			</form></div> 
+		<form method="POST">
+		Language: 
+		<select name="language" id="language">
+		{% for language in language_list %}
+			<option value="{{language}}">{{language}}</option>
+		{% endfor %}
+		</select>
+		<br>
+			Part of speech: 
+			<select name="partOfSpeech" id="partOfSpeech">
+			{% for PartOfSpeech in part_of_speech_list %}
+				<option value="{{PartOfSpeech}}">{{PartOfSpeech}}</option>
+			{% endfor %}
+			</select>
+		</form>
+		<br><br>
+		<br><br>
+	</body>
+	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
+      }})});});</script>
 </html>	

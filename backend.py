@@ -1,31 +1,32 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flaskext.mysql import MySQL
 from datetime import datetime
+import logic
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
 app.config['MYSQL_USER'] = 'Osama'
 app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
-app.config['MYSQL_DATABASE_DB'] = 'TestDB'
+app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
 conn = mysql.connect()
 cursor = conn.cursor()
 
-@app.route('/')
+@app.route('/', methods =["GET", "POST"])
 def hello():
-    return render_template('index.html')
+    language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
+    part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
+    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list)
 
-@app.route('/log')
-def log():
-    cursor.execute("SELECT * FROM TestTable WHERE id = 1;")
-    conn.commit()
-    data = cursor.fetchall()
-    (key, word, sentance) = data[0]
-    now = datetime.now()
-    file1 = open("log.txt","w+")
-    file1.write(f"This was pulled from the database {sentance} and it was done at {now}")
-    return render_template('index.html')
+@app.route('/Query', methods =["GET", "POST"])
+def Query():
+    language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
+    language_selected = request.form.get('language')
+    Lang_ID = logic.SQLQuery(f"SELECT Lang_ID FROM Lang_Ref WHERE Lang_Desc = '{language_selected}';")
+    part_of_speech_list = logic.SQLQuery(f"SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = '{Lang_ID[0]}';")
+    return render_template('partofspeech.html', part_of_speech_list=part_of_speech_list ) 
+
 
 if __name__ == '__main__':
     app.run(debug = True)
