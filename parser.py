@@ -11,7 +11,7 @@ from os import listdir
 from os.path import isfile, join
 
 def GetLanguageId(language):
-    language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '" + language + "'")
+    language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '"+ language +"'")
 
     # Condition for language not present in database
     if len(language_id_list) == 0:
