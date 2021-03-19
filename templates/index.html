@@ -7,58 +7,54 @@
 		<script
 		src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>		
+		crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="static/main.css">
     </head>
     <body>
-		<h1 style="font-size:25px; color:whitesmoke; background-color:teal; 
-	            font-family:verde; 
-				text-align:left;">
-			<pre> MULTILINGUAL <br><sub style="font-size:40px; color:whitesmoke; font-family:verde;">DICTIONARY </sub>      
-                                                <sup> English | Spanish | French | German | Japanese </sup></pre>
-		</h1>
-		<div style="text-align:center">
-			<form method="POST" action="">
+		<div id = "header">
+			<h1 id = "appname">App name</h1>
+			Translate Page:
+			<select id="page_language">
+					<option>English</option>
+					<option>French</option>
+			</select>
+		</div>
+		<div id = "SearchForm">
+			<form method="POST" action="" >
 				<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
 					pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}"
 				title="Word should contain Characters, punctuations and spaces only" required>
-				<button type="submit">submit</button></div>
-		
-		Language: 
+				<button id = "searchbutton" type="submit">submit</button></div> 
+		<label for="language">Language:</label>
 		<select name="language" id="language">
 		{% for language in language_list %}
 			<option value="{{language}}">{{language}}</option>
 		{% endfor %}
 		</select>
-		<br>
-			Part of speech: 
+		<label for="partOfSpeech">Part of speech:</label>
 			<select name="partOfSpeech" id="partOfSpeech">
 			{% for PartOfSpeech in part_of_speech_list %}
 				<option value="{{PartOfSpeech}}">{{PartOfSpeech}}</option>
 			{% endfor %}
 			</select>
 		</form>
-		<br><br>
-		<br><br>
 		<div id = "results">
-			<table class="table">
-				<thead>
-				  <tr>
-					<th scope="col">Results</th>
+					<h1 id = "resultslable"scope="col">Results</h1>
 					{% if error %}
-      				<p class="error"><strong>Error:</strong> {{ error }}
+      				<p id = "error" class="error"><strong>{{ error }}</strong>
     				{% endif %}
-				  </tr>
-				</thead>
-				<tbody>
-				  {% for item in sentence_List %}
-				  <tr>
-					  <td>{{item}}</td>
-				  </tr>
-				  {% endfor %}
-				</tbody>
-			  </table>
+				<ol>
+					{% for item in sentence_List %}
+					<li>{{item}}</li>
+					{% endfor %}
+				  </ol>
 		</div>
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
-      }})});});</script>
+	  }})});});</script>
+	  <script>if (document.getElementById("error").innerHTML.includes("corpus")) {
+		document.getElementById("results").style.backgroundColor = "crimson"
+	} 
+	</script>
+	<script></script>
 </html>	
