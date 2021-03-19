@@ -17,13 +17,12 @@
                                                 <sup> English | Spanish | French | German | Japanese </sup></pre>
 		</h1>
 		<div style="text-align:center">
-			<form>
-			<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
-				pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}" 
-			title="Word should contain Characters, punctuations and spaces only" required>
-			<button type="submit" >Submit</button> 
-			</form></div> 
-		<form method="POST">
+			<form method="POST" action="">
+				<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
+					pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}"
+				title="Word should contain Characters, punctuations and spaces only" required>
+				<button type="submit">submit</button></div>
+		
 		Language: 
 		<select name="language" id="language">
 		{% for language in language_list %}
@@ -40,6 +39,25 @@
 		</form>
 		<br><br>
 		<br><br>
+		<div id = "results">
+			<table class="table">
+				<thead>
+				  <tr>
+					<th scope="col">Results</th>
+					{% if error %}
+      				<p class="error"><strong>Error:</strong> {{ error }}
+    				{% endif %}
+				  </tr>
+				</thead>
+				<tbody>
+				  {% for item in sentence_List %}
+				  <tr>
+					  <td>{{item}}</td>
+				  </tr>
+				  {% endfor %}
+				</tbody>
+			  </table>
+		</div>
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
       }})});});</script>
