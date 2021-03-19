@@ -24,7 +24,7 @@ def hello():
         part_of_speech_selected = request.form.get('partOfSpeech')
         part_of_speech_ID = logic.SQLQuery(f"SELECT Part_ID FROM Speech_Parts WHERE Lang_ID = '{Lang_ID[0]}' AND Part_Desc = '{part_of_speech_selected}';")
         word_selected = logic.wordcreator(request.form.get('word'),request.form.get('partOfSpeech'))
-        sentence_List = logic.SQLQuery(f"select Line_Text from {language_selected}_corpus where Line_Text like  '%{word_selected}%';")
+        sentence_List = logic.SQLQuery(f"select Line_Text from {language_selected}_corpus where Line_Text like  '% {word_selected} %';")
         error = ""
         if len(sentence_List) == 0:
             error = "Error: Word not in corpus"

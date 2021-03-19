@@ -46,3 +46,6 @@ def wordcreator(word,partofspeech): # this function takes word selected and part
         return word
     else:
         print("Not Found")
+
+
+        "There/ex can/md be/be no/at doubt/nn ,/, the/at Boston/np of/in that/dt era/nn could/md be/be exquisitely/ql cruel/jj in/in enforcing/vbg its/pp$ canons/nns of/in behavior/nn ./.The/at gentle/jj Channing/np ,/, revered/vbn by/in all/abn Bostonians/nps ,/, orthodox/jj or/cc Unitarian/jj ,/, wrote/vbd to/in a/at friend/nn in/in Louisville/np that/cs among/in its/pp$ many/ap virtues/nns Boston/np did/dod not/* abound/vb in/in a/at tolerant/jj spirit/nn ,/, that/cs the/at yoke/nn of/in opinion/nn crushed/vbd individuality/nn of/in judgment/nn and/cc action/nn :/: ``/`` No/at city/nn in/in the/at world/nn is/bez governed/vbn so/ql little/rb by/in a/at police/nn ,/, and/cc so/ql much/rb by/in mutual/jj inspections/nns and/cc what/wdt is/bez called/vbn public/jj sentiment/nn ./.We/ppss stand/vb more/rbr in/in awe/nn of/in one/cd another/dt than/cs most/ap people/nns ./.Opinion/nn is/bez less/ql individual/jj or/cc runs/vbz more/rbr into/in masses/nns ,/, and/cc often/rb rules/vbz with/in a/at rod/nn of/in iron/nn ''/'' ./.Even/ql more/ql poignantly/rb ,/, and/cc with/in the/at insight/nn of/in a/at genius/nn ,/, Channing/np added/vbd --/-- remember/vb ,/, this/dt is/bez Channing/np ,/, not/* Parker/np !/."
