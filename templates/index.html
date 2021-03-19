@@ -16,7 +16,7 @@
 			Translate Page:
 			<select id="page_language">
 					<option>English</option>
-					<option>France</option>
+					<option>French</option>
 			</select>
 		</div>
 		<div id = "SearchForm">
@@ -52,9 +52,8 @@
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
 	  }})});});</script>
-	  <script>if (document.getElementById("error").innerHTML.includes("c")) {
+	  <script>if (document.getElementById("error").innerHTML.includes("corpus")) {
 		document.getElementById("results").style.backgroundColor = "crimson"
-		console.log(document.getElementById("error").innerHTML)
 	} 
 	</script>
 	<script></script>

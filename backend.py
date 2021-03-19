@@ -14,7 +14,7 @@ conn = mysql.connect()
 cursor = conn.cursor()
 
 @app.route('/', methods =["GET", "POST"])
-def hello():
+def homepage():
     if request.method == "GET":
         sentence_List = ""
         error = ""
