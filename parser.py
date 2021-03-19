@@ -9,6 +9,7 @@ import datetime
 import sys
 from os import listdir
 from os.path import isfile, join
+nltk.download('punkt')
 
 def GetLanguageId(language):
     language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '"+ language +"'")

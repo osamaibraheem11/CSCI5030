@@ -39,6 +39,25 @@
 		</form>
 		<br><br>
 		<br><br>
+		<div id = "results">
+			<table class="table">
+				<thead>
+				  <tr>
+					<th scope="col">Results</th>
+					{% if error %}
+      				<p class="error"><strong>Error:</strong> {{ error }}
+    				{% endif %}
+				  </tr>
+				</thead>
+				<tbody>
+				  {% for item in sentence_List %}
+				  <tr>
+					  <td>{{item}}</td>
+				  </tr>
+				  {% endfor %}
+				</tbody>
+			  </table>
+		</div>
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
       }})});});</script>
