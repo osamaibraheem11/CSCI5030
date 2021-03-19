@@ -1,0 +1,43 @@
+#header{
+    border-style: solid ;
+    border-color: black;
+    background-color:lightblue;
+    width: auto;
+    margin-bottom: 3%;
+    height: 30%;
+}
+#appname{
+    display: inline;
+    margin-right: 55%;
+}
+#page_language{
+    display: inline;
+}
+#language{
+    display: inline!important;
+    margin-right: 3%;
+}
+#partOfSpeech{
+    display: inline!important;
+    margin-right: 3%;
+}
+#searchbutton{
+    margin-right: 3%;
+
+}
+#results{
+    margin-top: 4%;
+    border-style: double;
+    background-color: rgb(232,244,248);
+    overflow: scroll;
+    max-height: 350px;
+}
+#resultslable{
+    text-align: center;
+}
+form {
+    display: inline!important;
+}
+#SearchForm{
+    display: inline!important;
+}

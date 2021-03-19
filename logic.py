@@ -25,3 +25,24 @@ def SQLQuery(statment):
     conn.commit()
     data = logic.tuple2list(cursor.fetchall()) 
     return data
+
+def SQLInsertQuery(statment):
+    cursor.execute(statment)
+    conn.commit()
+
+def wordcreator(word,partofspeech): # this function takes word selected and part of speech collected and returns string needed for sql statment
+    thisdict = {
+    "Noun":"NN",
+    "Pronoun":"PN",
+    "Adjective":"JJ",
+    "Adverb":"RB",
+    "Preposition":"IN",
+    "Conjunction":"CC",
+    "Article":"AT",
+    "Interjection":"UH",
+                }
+    if partofspeech in thisdict.keys():
+        word = f"{word}/{thisdict[partofspeech]}"
+        return word
+    else:
+        print("Not Found")
