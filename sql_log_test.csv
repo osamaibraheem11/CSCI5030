@@ -1,4 +1,6 @@
-"SELECT * FROM table_name;","SELECT * FROM table_name;"
-"INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);","INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);"
-"DELETE FROM table_name WHERE condition;","DELETE FROM table_name WHERE condition;"
-"UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;","UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;"
+SELECT * FROM table_name;,SELECT * FROM table_name;,OKAY,OKAY,TEST,TEST
+"INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);","INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);",OKAY,OKAY,TEST,TEST
+DELETE FROM table_name WHERE condition;,DELETE FROM table_name WHERE condition;,OKAY,OKAY,TEST,TEST
+"UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;","UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;",OKAY,OKAY,TEST,TEST
+DETE FROM table_name WHERE condition;,DETE FROM table_name WHERE condition;,ERROR,ERROR,TEST,TEST
+* FROM table_name;,* FROM table_name;,ERROR,ERROR,TEST,TEST
