@@ -4,6 +4,7 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import logic
 import itertools
+import csv
 
 app = Flask(__name__)
 
@@ -46,3 +47,11 @@ def wordcreator(word,partofspeech): # this function takes word selected and part
         return word
     else:
         print("Not Found")
+
+def SQL_log(statment):
+    now = datetime.now()
+    row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S")]
+    with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerows(row)
+        
