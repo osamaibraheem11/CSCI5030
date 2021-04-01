@@ -48,10 +48,10 @@ def wordcreator(word,partofspeech): # this function takes word selected and part
     else:
         print("Not Found")
 
-def SQL_log(statment,status):
+def SQL_log(statment,status,purpose):
     now = datetime.now()
-    row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S"),status]
+    row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S"),status,purpose]
     with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerows(row)
+        csvwriter.writerows([row])
         
