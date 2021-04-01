@@ -5,6 +5,7 @@ from datetime import datetime
 import logic
 import itertools
 import csv
+import os.path
 
 app = Flask(__name__)
 
@@ -69,7 +70,14 @@ def wordcreator(word,partofspeech): # this function takes word selected and part
 def SQL_log(statment,status,purpose):
     now = datetime.now()
     row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S"),status,purpose]
-    with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerows([row])
+    headers = ["SQL Statment","Date & Time","Status","Purpose"]
+    if os.path.isfile('SQL-Scripts/sql_log.csv'):
+        with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerows([row])
+    else:
+        with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerows([headers])
+            csvwriter.writerows([row])
         
