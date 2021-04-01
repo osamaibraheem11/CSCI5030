@@ -11,53 +11,33 @@ from os import listdir
 from os.path import isfile, join
 from collections import defaultdict
 import json
-
-def GetLanguageId(language):
-    language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '" + language + "'")
-
-    if len(language_id_list) == 0:
-        return -1
-    else:
-        return language_id_list[0]
-
-def StoreIndexing(dictionary):
-    f = open("indexing.txt", "w")
-    f.write(dictionary)
-    f.close()
+nltk.download('punkt')
 
 def CreateIndexing(sentence, line_id, dictionary):
     word_list = sentence.split()
     # number of parts formed for each tagged word in the corpus(word/pos)
     tagged_word_parts = 2   
-    
     for word in word_list:
         # skip untagged words
         if(len(word.split('/')) != tagged_word_parts):
             continue
-
         subtag = (word.split('/')[1]).upper()
         # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
         subtag = subtag.split('-TL')[0]
-
         if(subtag in logic.english_pos_mapping):
             generalized_pos = logic.english_pos_mapping[subtag]
         else:
-            generalized_pos = subtag
-        
+            generalized_pos = subtag        
         word = (word.split('/')[0] + "/" + generalized_pos).lower()
-        dictionary[word].append(line_id)
-        
+        dictionary[word].append(line_id)        
     return dictionary
-
 
 # Example path: 'E:\\SLU\\Sem1\\Principles of SD\\Project Material\\brown'
 path = input("Enter path of the corpus directory: ")
 language = input("Enter language: ")
-
-language_id = str(GetLanguageId(language))
+language_id = str(logic.GetLanguageId(language))
 if language_id == "-1":
     sys.exit("Language not found in the database.")
-
 # list of all file names in the corpus directory
 file_name_list = []
 for file_name in listdir(path):
@@ -68,30 +48,23 @@ line_id = 1
 document_id = 1
 values = ""
 dictionary = defaultdict(list)
-
 for file_name in file_name_list:
-
     # ignore the files CONTENTS and README
     if (file_name != "CONTENTS") and (file_name != "README"):
         file_path = path + '\\' + file_name
         with open(file_path, 'r') as file:
             text = file.read().replace('\n', '')
-
         sent_detector = nltk.data.load('tokenizers/punkt/' + language.lower() + '.pickle')
         sentence_list = sent_detector.tokenize(text.strip())
-
         for sentence in sentence_list:
             # form the values string required in insert query
             values += "(" + language_id + ", " + str(document_id) + ", " + "'" + file_name + "', " + "\"" + sentence + "\", " + "'" + str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + "'),"
             dictionary = CreateIndexing(sentence, line_id, dictionary)
             line_id += 1
-
 # remove last comma from values string    
 values = values[:-1]
-
 corpus_table = language.lower() + "_corpus"
 query = "insert into " + corpus_table + " (Lang_ID, Doc_ID, Doc_Name, Line_Text, Last_Update) values " + values
 logic.SQLInsertQuery(query)
 document_id += 1
-
-StoreIndexing(json.dumps(dictionary))
+logic.StoreIndexing(json.dumps(dictionary))

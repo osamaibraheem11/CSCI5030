@@ -79,3 +79,20 @@ def SQLQuery(statment):
 def SQLInsertQuery(statment):
     cursor.execute(statment)
     conn.commit()
+
+def GetLanguageId(language):
+    language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '" + language + "'")
+    if len(language_id_list) == 0:
+        return -1
+    else:
+        return language_id_list[0]
+
+def StoreIndexing(dictionary):
+    file = open("indexing.txt", "w")
+    file.write(dictionary)
+    file.close()
+
+def GetIndexing():
+    file = open("indexing.txt", "r")
+    dictionary = json.loads(file.read())
+    return dictionary
