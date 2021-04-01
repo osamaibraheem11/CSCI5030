@@ -22,14 +22,32 @@ def tuple2list(ExTuple):
     return ExList 
 
 def SQLQuery(statment):
-    cursor.execute(statment)
-    conn.commit()
-    data = logic.tuple2list(cursor.fetchall()) 
-    return data
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        data = logic.tuple2list(cursor.fetchall())
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+    
 
 def SQLInsertQuery(statment):
-    cursor.execute(statment)
-    conn.commit()
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
 
 def wordcreator(word,partofspeech): # this function takes word selected and part of speech collected and returns string needed for sql statment
     thisdict = {
