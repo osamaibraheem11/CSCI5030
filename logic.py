@@ -7,14 +7,64 @@ import itertools
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
-app.config['MYSQL_USER'] = 'Osama'
-app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
+# app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
+# app.config['MYSQL_USER'] = 'Osama'
+# app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
+# app.config['MYSQL_DATABASE_DB'] = 'wordsense'
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'pnkls'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
 conn = mysql.connect()
 cursor = conn.cursor()
+
+english_pos_mapping = {
+    "NN":"Noun", 
+    "NN$":"Noun",
+    "NNS":"Noun",
+    "NNS$":"Noun",
+    "NP":"Noun",
+    "NP$":"Noun",
+    "NPS":"Noun",
+    "NPS$":"Noun",
+    "NR":"Noun",
+    "NRS":"Noun",
+    "VB":"Verb",
+    "VBD":"Verb",
+    "VBG":"Verb",
+    "VBN":"Verb",
+    "VBP":"Verb",
+    "VBZ":"Verb",
+    "PN":"Pronoun",
+    "PN$":"Pronoun",
+    "PP$":"Pronoun",
+    "PP$$":"Pronoun",
+    "PPL":"Pronoun",
+    "PPLS":"Pronoun",
+    "PPO":"Pronoun",
+    "PPS":"Pronoun",
+    "PPSS":"Pronoun",
+    "WP$":"Pronoun",
+    "WPO":"Pronoun",
+    "WPS":"Pronoun",
+    "JJ":"Adjective",
+    "JJR":"Adjective",
+    "JJS":"Adjective",
+    "JJT":"Adjective",
+    "RB":"Adverb",
+    "RBR":"Adverb",
+    "RBT":"Adverb",
+    "RN":"Adverb",
+    "RP":"Adverb",
+    "WRB":"Adverb",
+    "CC":"Conjunction",
+    "CS":"Conjunction",
+    "AT":"Article",
+    "UH":"Interjection"
+}
 
 def tuple2list(ExTuple):
     ExList = list(itertools.chain(*ExTuple))
@@ -30,19 +80,19 @@ def SQLInsertQuery(statment):
     cursor.execute(statment)
     conn.commit()
 
-def wordcreator(word,partofspeech): # this function takes word selected and part of speech collected and returns string needed for sql statment
-    thisdict = {
-    "Noun":"NN",
-    "Pronoun":"PN",
-    "Adjective":"JJ",
-    "Adverb":"RB",
-    "Preposition":"IN",
-    "Conjunction":"CC",
-    "Article":"AT",
-    "Interjection":"UH",
-                }
-    if partofspeech in thisdict.keys():
-        word = f"{word}/{thisdict[partofspeech]}"
-        return word
+def GetLanguageId(language):
+    language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '" + language + "'")
+    if len(language_id_list) == 0:
+        return -1
     else:
-        print("Not Found")
+        return language_id_list[0]
+
+def StoreIndexing(dictionary):
+    file = open("indexing.txt", "w")
+    file.write(dictionary)
+    file.close()
+
+def GetIndexing():
+    file = open("indexing.txt", "r")
+    dictionary = json.loads(file.read())
+    return dictionary
