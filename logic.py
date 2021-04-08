@@ -67,7 +67,7 @@ def wordcreator(word,partofspeech): # this function takes word selected and part
     else:
         print("Not Found")
 
-def SQL_log(statment,status,purpose):
+def SQL_log(statment,status,purpose): # this funcation write to a log everytime a SQL query is ran. This is helpful to see changes to the database. 
     now = datetime.now()
     row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S"),status,purpose]
     headers = ["SQL Statment","Date & Time","Status","Purpose"]
