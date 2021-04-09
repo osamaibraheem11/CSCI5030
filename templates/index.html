@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
 		<meta charset="utf-8">
@@ -52,7 +52,7 @@
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
 	  }})});});</script>
-	  <script>if (document.getElementById("error").innerHTML.includes("corpus")) {
+	  <script>if (document.getElementById("error").innerHTML.length > 0) {
 		document.getElementById("results").style.backgroundColor = "crimson"
 	} 
 	</script>
