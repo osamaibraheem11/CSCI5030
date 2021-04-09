@@ -4,7 +4,6 @@ from datetime import datetime
 import logic
 import json
 from collections import defaultdict
-import parser
 app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
