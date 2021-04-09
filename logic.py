@@ -106,7 +106,7 @@ def GetLanguageId(language):
     if len(language_id_list) == 0:
         return -1
     else:
-        print("Not Found")
+        return language_id_list[0]
 
 def SQL_log(statment,status,purpose): # this funcation write to a log everytime a SQL query is ran. This is helpful to see changes to the database. 
     now = datetime.now()
