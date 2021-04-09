@@ -4,6 +4,8 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import logic
 import itertools
+import csv
+import os.path
 
 app = Flask(__name__)
 
@@ -71,21 +73,53 @@ def tuple2list(ExTuple):
     return ExList 
 
 def SQLQuery(statment):
-    cursor.execute(statment)
-    conn.commit()
-    data = logic.tuple2list(cursor.fetchall()) 
-    return data
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        data = logic.tuple2list(cursor.fetchall())
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+    
 
 def SQLInsertQuery(statment):
-    cursor.execute(statment)
-    conn.commit()
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
 
 def GetLanguageId(language):
     language_id_list = logic.SQLQuery("select Lang_ID from lang_ref where Lang_Desc = '" + language + "'")
     if len(language_id_list) == 0:
         return -1
     else:
-        return language_id_list[0]
+        print("Not Found")
+
+def SQL_log(statment,status,purpose): # this funcation write to a log everytime a SQL query is ran. This is helpful to see changes to the database. 
+    now = datetime.now()
+    row = [statment, now.strftime("%d/%m/%Y, %H:%M:%S"),status,purpose]
+    headers = ["SQL Statment","Date & Time","Status","Purpose"]
+    if os.path.isfile('SQL-Scripts/sql_log.csv'):
+        with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerows([row])
+    else:
+        with open('SQL-Scripts/sql_log.csv', 'a') as csvfile:  
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerows([headers])
+            csvwriter.writerows([row])
 
 def StoreIndexing(dictionary):
     file = open("indexing.txt", "w")
