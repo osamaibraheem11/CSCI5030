@@ -10,28 +10,29 @@
 		crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="static/main.css">
     </head>
-    <body>
+    <body id = "wholepage">
+		<form method="POST" action="" >
 		<div id = "header">
 			<h1 id = "appname">Deelingual</h1>
-			Translate Page:
-			<select id="page_language">
-					<option>English</option>
-					<option>French</option>
+			<label id = "translate_page"for="page_language">{{word_translated_list[6]}}</label>
+			<select id="page_language" name ="page_language">
+				{% for page_language in page_language_list %}
+				<option value="{{page_language}}">{{page_language}}</option>
+			{%endfor%}
 			</select>
 		</div>
 		<div id = "SearchForm">
-			<form method="POST" action="" >
-				<input id = "searchbar"type="text" name="word" placeholder="Enter the word"
+				<input id = "searchbar"type="text" name="word" placeholder="{{word_translated_list[4]}}"
 					pattern="[A-Za-z.,':^?!\[\]`)&quot{\s-]{1,100}"
 				title="Word should contain Characters, punctuations and spaces only" required>
-				<button id = "searchbutton" type="submit">submit</button></div> 
-		<label for="language">Language:</label>
+				<button id = "searchbutton" type="submit">{{word_translated_list[8]}}</button></div> 
+		<label id = "language_translate"for="language">{{word_translated_list[1]}}</label>
 		<select name="language" id="language">
 		{% for language in language_list %}
 			<option value="{{language}}">{{language}}</option>
 		{% endfor %}
 		</select>
-		<label for="partOfSpeech">Part of speech:</label>
+		<label id = "part_of_speech_translate"for="partOfSpeech">{{word_translated_list[2]}}</label>
 			<select name="partOfSpeech" id="partOfSpeech">
 			{% for PartOfSpeech in part_of_speech_list %}
 				<option value="{{PartOfSpeech}}">{{PartOfSpeech}}</option>
@@ -39,7 +40,7 @@
 			</select>
 		</form>
 		<div id = "results">
-					<h1 id = "resultslable"scope="col">Results</h1>
+					<h1 id = "resultslable"scope="col">{{word_translated_list[7]}}:</h1>
 					{% if error %}
       				<p id = "error" class="error"><strong>{{ error }}</strong>
     				{% endif %}
@@ -52,6 +53,15 @@
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
 	  }})});});</script>
+		  <script>$(function() {$("#page_language").on("change", function(event){$.ajax({data: {language : $("#page_language").val()},type:"POST",url : "{{url_for('Page')}}", success: function(response) {console.log(response);
+		$("#translate_page").html(response[6]);
+		$("#searchbutton").html(response[8]);
+		$("#part_of_speech_translate").html(response[2]);
+		$("#resultslable").html(response[7]);
+		$("input[type=text]").attr("placeholder", response[4]);
+		$("#resultslable").html(response[7]);
+		$("#error").html(console.log(response[3]));
+		$("#language_translate").html(response[1]);}})});});</script>
 	  <script>if (document.getElementById("error").innerHTML.length > 0) {
 		document.getElementById("results").style.backgroundColor = "crimson"
 	} 

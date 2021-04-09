@@ -7,6 +7,8 @@ import itertools
 import json
 import csv
 import os.path
+import json
+
 
 app = Flask(__name__)
 
@@ -16,8 +18,8 @@ app = Flask(__name__)
 # app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'pnkls'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'CSCI5030@SLU2021'
 app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
