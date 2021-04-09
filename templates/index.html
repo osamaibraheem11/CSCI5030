@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
 		<meta charset="utf-8">
@@ -62,7 +62,7 @@
 		$("#resultslable").html(response[7]);
 		$("#error").html(console.log(response[3]));
 		$("#language_translate").html(response[1]);}})});});</script>
-	  <script>if (document.getElementById("error").innerHTML.includes("corpus")) {
+	  <script>if (document.getElementById("error").innerHTML.length > 0) {
 		document.getElementById("results").style.backgroundColor = "crimson"
 	} 
 	</script>
