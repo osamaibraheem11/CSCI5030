@@ -1,13 +1,13 @@
 /* Change Log															*/
 /* Beta - 4/4/2021 - Garrett Reed - Initial Creation - Create German Reference Tables and Data	*/
 
-use wordsense;
+USE wordsense;
 
 /* Create table structures */
 DROP TABLE IF EXISTS German_Index;
 DROP TABLE IF EXISTS German_Corpus;
 
-create table German_Corpus (
+CREATE TABLE German_Corpus (
 	Line_ID INT NOT NULL AUTO_INCREMENT,
     Lang_ID INT NOT NULL,
     Doc_ID INT NOT NULL,
@@ -17,7 +17,7 @@ create table German_Corpus (
 	primary key (Line_ID),
     FOREIGN KEY (Lang_ID) REFERENCES Lang_Ref(Lang_ID));
     
-create table German_Index (
+CREATE TABLE German_Index (
     Word_Speech varchar(50),
     Lang_ID INT NOT NULL,
 	Line_ID INT NOT NULL,
