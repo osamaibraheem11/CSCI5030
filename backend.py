@@ -31,15 +31,22 @@ def homepage():
             error = "Error: Word not in corpus"
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
-    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error)
+    page_language_list = logic.SQLQuery("select Language_Page from Page_Translation;")
+    word_translated_list = logic.SQLQuery("select * from Page_Translation WHERE Language_Page = 'english';")
+    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
 
 @app.route('/Query', methods =["GET", "POST"])
 def Query():
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     language_selected = request.form.get('language')
     Lang_ID = logic.GetLanguageId(language_selected)
-    part_of_speech_list = logic.SQLQuery(f"SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = '{Lang_ID[0]}';")
+    part_of_speech_list = logic.SQLQuery(f"SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = '{Lang_ID}';")
     return render_template('partofspeech.html', part_of_speech_list=part_of_speech_list )
 
+@app.route('/Page', methods =["GET", "POST"])
+def Page():
+    page_language_selected = request.form.get('language')
+    word_translated_list = logic.SQLQuery(f"select * from Page_Translation WHERE Language_Page = '{page_language_selected}';")
+    return jsonify(word_translated_list)
 if __name__ == '__main__':
     app.run(debug = True)
