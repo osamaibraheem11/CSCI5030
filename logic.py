@@ -4,6 +4,8 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import logic
 import itertools
+import os.path
+import json
 
 app = Flask(__name__)
 
@@ -87,12 +89,41 @@ def GetLanguageId(language):
     else:
         return language_id_list[0]
 
+def CreateIndexing(sentence, line_id, dictionary):
+    word_list = sentence.split()
+    # number of parts formed for each tagged word in the corpus(word/pos)
+    tagged_word_parts = 2   
+    for word in word_list:
+        # skip untagged words
+        if(len(word.split('/')) != tagged_word_parts):
+            continue
+        subtag = (word.split('/')[1]).upper()
+        # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
+        subtag = subtag.split('-TL')[0]
+        if(subtag in logic.english_pos_mapping):
+            generalized_pos = logic.english_pos_mapping[subtag]
+        else:
+            generalized_pos = subtag        
+        word = (word.split('/')[0] + "/" + generalized_pos).lower()
+        dictionary[word].append(line_id)        
+    return dictionary
+
 def StoreIndexing(dictionary):
     file = open("indexing.txt", "w")
     file.write(dictionary)
     file.close()
 
 def GetIndexing():
-    file = open("indexing.txt", "r")
-    dictionary = json.loads(file.read())
+    dictionary = {}
+    if(os.path.exists("indexing.txt")):
+        file = open("indexing.txt", "r")
+        dictionary = json.loads(file.read())
     return dictionary
+    
+def isCorpusLoaded(corpus):
+    query = f"select count(*) from {corpus}"
+    count_list = SQLQuery(query)
+    if(count_list[0] == 0):
+        return False
+    else:
+        return True
