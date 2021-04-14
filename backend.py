@@ -33,7 +33,7 @@ def homepage():
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
     page_language_list = logic.SQLQuery("select Language_Page from Page_Translation;")
     word_translated_list = logic.SQLQuery("select * from Page_Translation WHERE Language_Page = 'english';")
-    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
+    rern render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
 
 @app.route('/Query', methods =["GET", "POST"])
 def Query():
