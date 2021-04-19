@@ -26,48 +26,21 @@ conn = mysql.connect()
 cursor = conn.cursor()
 
 english_pos_mapping = {
-    "NN":"Noun", 
-    "NN$":"Noun",
-    "NNS":"Noun",
-    "NNS$":"Noun",
-    "NP":"Noun",
-    "NP$":"Noun",
-    "NPS":"Noun",
-    "NPS$":"Noun",
-    "NR":"Noun",
-    "NRS":"Noun",
-    "VB":"Verb",
-    "VBD":"Verb",
-    "VBG":"Verb",
-    "VBN":"Verb",
-    "VBP":"Verb",
-    "VBZ":"Verb",
-    "PN":"Pronoun",
-    "PN$":"Pronoun",
-    "PP$":"Pronoun",
-    "PP$$":"Pronoun",
-    "PPL":"Pronoun",
-    "PPLS":"Pronoun",
-    "PPO":"Pronoun",
-    "PPS":"Pronoun",
-    "PPSS":"Pronoun",
-    "WP$":"Pronoun",
-    "WPO":"Pronoun",
-    "WPS":"Pronoun",
-    "JJ":"Adjective",
-    "JJR":"Adjective",
-    "JJS":"Adjective",
-    "JJT":"Adjective",
-    "RB":"Adverb",
-    "RBR":"Adverb",
-    "RBT":"Adverb",
-    "RN":"Adverb",
-    "RP":"Adverb",
-    "WRB":"Adverb",
-    "CC":"Conjunction",
-    "CS":"Conjunction",
-    "AT":"Article",
-    "UH":"Interjection"
+    "NN":"Noun","NN$":"Noun","NNS":"Noun","NNS$":"Noun","NP":"Noun","NP$":"Noun","NPS":"Noun","NPS$":"Noun",
+    "NR":"Noun","NRS":"Noun","VB":"Verb","VBD":"Verb","VBG":"Verb","VBN":"Verb","VBP":"Verb","VBZ":"Verb",
+    "PN":"Pronoun","PN$":"Pronoun","PP$":"Pronoun","PP$$":"Pronoun","PPL":"Pronoun","PPLS":"Pronoun",
+    "PPO":"Pronoun","PPS":"Pronoun","PPSS":"Pronoun","WP$":"Pronoun","WPO":"Pronoun","WPS":"Pronoun",
+    "JJ":"Adjective","JJR":"Adjective","JJS":"Adjective","JJT":"Adjective","RB":"Adverb","RBR":"Adverb",
+    "RBT":"Adverb","RN":"Adverb","RP":"Adverb","WRB":"Adverb","CC":"Conjunction","CS":"Conjunction",
+    "AT":"Article","UH":"Interjection"
+}
+
+german_pos_mapping = {
+    "ADJA":"Adjektiv","ADJD":"Adjektiv","ADV":"Adverb","PAV":"Adverb","PWAV":"Adverb","APPR":"Präposition","APPRART":"Präposition",
+    "APPO":"Präposition","APZR":"Präposition","KOUI":"Präposition","ART":"Artikel","ITJ":"Zwischenruf",
+    "KON":"Conjunction","KOKOM":"Conjunction","KOUS":"Conjunction","NN":"Substantiv","PDS":"Pronomen",
+    "PIS":"Pronomen","PPER":"Pronomen","PRF":"Pronomen","PPOSS":"Pronomen","PRELS":"Pronomen","PWS":"Pronomen",
+    "NE":"Eigenname","VAFIN":"Verb"
 }
 
 def tuple2list(ExTuple):
@@ -126,9 +99,14 @@ def SQL_log(statment,status,purpose): # this funcation write to a log everytime 
 def StoreIndexing(dictionary):
     file = open("indexing.txt", "w")
     file.write(dictionary)
+    file = open("germanindex.txt","w")
+    file.write(germandictionary)
     file.close()
 
 def GetIndexing():
     file = open("indexing.txt", "r")
     dictionary = json.loads(file.read())
     return dictionary
+    file = open("germanindex.txt","r")
+    germandictionary = json.loads(file.read())
+    return germandictionary

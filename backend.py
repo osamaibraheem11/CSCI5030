@@ -13,6 +13,7 @@ def homepage():
     if request.method == "GET":
         sentence_List = ""
         error = ""
+        word_translated_list = logic.SQLQuery("select * from Page_Translation WHERE Language_Page = 'english';")
     if request.method == "POST":
         language_selected = request.form.get('language')
         Lang_ID = logic.GetLanguageId(language_selected)
@@ -22,12 +23,13 @@ def homepage():
         line_ids= str(dictionary[word_selected])[1:][:-1]
         sentence_List = logic.SQLQuery(f"select Line_Text from {language_selected}_corpus where Line_id in ({line_ids})")
         error = ""
+        page_language_selected = request.form.get('page_language')
+        word_translated_list = logic.SQLQuery(f"select * from Page_Translation WHERE Language_Page = '{page_language_selected}';")
         if len(sentence_List) == 0:
             error = "Error: Word not in corpus"
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
     page_language_list = logic.SQLQuery("select Language_Page from Page_Translation;")
-    word_translated_list = logic.SQLQuery("select * from Page_Translation WHERE Language_Page = 'english';")
     return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
 
 @app.route('/Query', methods =["GET", "POST"])
