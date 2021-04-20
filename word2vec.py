@@ -10,6 +10,9 @@ class MyCorpus(object):
     def __init__(self,path):
         self.path = path
     def __iter__(self):
-        corpus_path = datapath(self.path)
-        for line in open(corpus_path):
+        CorpusPath = DataPath(self.path)
+        for line in open(CorpusPath):
             yield utils.simple_preprocess(line)
+
+PathToFile = input("Enter the path to the corpus: ")
+AllSentences = MyCorpus(PathToFile)
