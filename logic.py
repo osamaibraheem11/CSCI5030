@@ -82,7 +82,6 @@ def VectorData(statment):
         cursor.execute(statment)
         conn.commit()
         data = cursor.fetchall()
-        data_dic = {row[0]: row[1] for row in data}   # OR {row[0]: row[1] for row in result_set}
         status = "OKAY"
         purpose = "PRODUCTION"
         SQL_log(statment,status,purpose)

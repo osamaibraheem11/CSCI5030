@@ -33,12 +33,3 @@ for lists in data_lists:
     sentenceVectorList = numpy.array(sentenceVectorList)
     sentenceVector = sentenceVectorList.mean()
     logic.SQLInsertQuery(f"UPDATE {language}_corpus SET vector = {sentenceVector} WHERE Line_id = {lineID};")
-
-
-
-        
-
-
-
-
-SetUpDB(language)
