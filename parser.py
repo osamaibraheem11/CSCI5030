@@ -49,4 +49,4 @@ query = "insert into " + corpus_table + " (Lang_ID, Doc_ID, Doc_Name, Line_Text,
 if(not logic.isCorpusLoaded(corpus_table)):
     logic.SQLInsertQuery(query)
 document_id += 1
-logic.StoreIndexing(json.dumps(dictionary))
+logic.StoreIndexing(json.dumps(dictionary), 'indexing.txt')
