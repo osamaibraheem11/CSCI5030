@@ -12,15 +12,15 @@ import json
 
 app = Flask(__name__)
 
-# app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
-# app.config['MYSQL_USER'] = 'Osama'
-# app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
-# app.config['MYSQL_DATABASE_DB'] = 'wordsense'
-
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'CSCI5030@SLU2021'
+app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
+app.config['MYSQL_USER'] = 'Osama'
+app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
 app.config['MYSQL_DATABASE_DB'] = 'wordsense'
+
+#app.config['MYSQL_HOST'] = 'localhost'
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'CSCI5030@SLU2021'
+#app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
 conn = mysql.connect()
@@ -75,6 +75,25 @@ def tuple2list(ExTuple):
     ExList = list(itertools.chain(*ExTuple))
     return ExList 
 
+
+
+def VectorData(statment):
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        data = cursor.fetchall()
+        data_dic = {row[0]: row[1] for row in data}   # OR {row[0]: row[1] for row in result_set}
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+
+
+
 def SQLQuery(statment):
     try:
         cursor.execute(statment)
@@ -97,7 +116,6 @@ def SQLInsertQuery(statment):
         status = "OKAY"
         purpose = "PRODUCTION"
         SQL_log(statment,status,purpose)
-        return data
     except:
         status = "ERROR"
         purpose = "PRODUCTION"
