@@ -40,6 +40,15 @@
 			</select>
 		</form>
 		<div id = "results">
+			     <form>
+				  <select name = "dropdown">
+				  <option value = "Following Asc">Following Asc</option>
+				  <option value = "Following Asc">Following Desc</option>
+				  <option value = "Following Asc">Preceding Asc</option>
+				  <option value = "Following Asc">Preceding Desc</option>
+				  </select>
+				  <br><br>
+			      </form>
 					<h1 id = "resultslable"scope="col">{{word_translated_list[7]}}:</h1>
 					{% if error %}
       				<p id = "error" class="error"><strong>{{ error }}</strong>
@@ -66,5 +75,5 @@
 		document.getElementById("results").style.backgroundColor = "crimson"
 	} 
 	</script>
-	<script></script>
-</html>	
+</html>
+
