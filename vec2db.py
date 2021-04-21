@@ -18,6 +18,7 @@ model = Word2Vec.load(f"models/{model}.model")
 data_lists = logic.VectorData(f"SELECT Line_ID, Line_text FROM {language}_corpus;")
 
 for lists in data_lists:
+    lineID = lists[0]
     sentence = lists[1]
     sentence = sentence.split()
     sentenceVectorList = list()
@@ -31,6 +32,7 @@ for lists in data_lists:
             pass
     sentenceVectorList = numpy.array(sentenceVectorList)
     sentenceVector = sentenceVectorList.mean()
+    logic.SQLInsertQuery(f"UPDATE {language}_corpus SET vector = {sentenceVector} WHERE Line_id = {lineID};")
 
 
 
