@@ -97,7 +97,6 @@ def SQLInsertQuery(statment):
         status = "OKAY"
         purpose = "PRODUCTION"
         SQL_log(statment,status,purpose)
-        return data
     except:
         status = "ERROR"
         purpose = "PRODUCTION"
