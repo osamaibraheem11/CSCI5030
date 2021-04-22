@@ -32,7 +32,7 @@ dictionary = defaultdict(list)
 for file_name in file_name_list:
     # ignore the files CONTENTS and README
     if (file_name != "CONTENTS") and (file_name != "README"):
-        file_path = path + '\\' + file_name
+        file_path = path + '/' + file_name
         with open(file_path, 'r') as file:
             text = file.read().replace('\n', '')
         sent_detector = nltk.data.load('tokenizers/punkt/' + language.lower() + '.pickle')
