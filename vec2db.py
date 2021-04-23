@@ -6,7 +6,7 @@ import numpy
 
 def SetUpDB(language):
     try:
-        logic.SQLQuery(f"ALTER TABLE {language}_corpus ADD vector DOUBLE;")
+        logic.SQLQuery(f"ALTER TABLE {language}_corpus ADD vector LONGTEXT;")
     except:
         pass
 
@@ -27,7 +27,7 @@ for lists in data_lists:
         words = words[0]
         try:
             vector = model.wv[f'{words}']
-            sentenceVectorList.append(vector.mean())
+            sentenceVectorList.append(vector.())
         except:
             pass
     sentenceVectorList = numpy.array(sentenceVectorList)

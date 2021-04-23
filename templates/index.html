@@ -38,15 +38,21 @@
 				<option value="{{PartOfSpeech}}">{{PartOfSpeech}}</option>
 			{% endfor %}
 			</select>
-		</form>
 		<div id = "results">
-			     <form>
 				  <select name = "dropdown">
 				  <option value = "Following Asc">Following Asc</option>
 				  <option value = "Following Asc">Following Desc</option>
 				  <option value = "Following Asc">Preceding Asc</option>
 				  <option value = "Following Asc">Preceding Desc</option>
 				  </select>
+				  <label id = "clustermountlable"for="clustermount">Choose amount of clusters: </label>
+				  <select name = "clusteramount" id = "clusteramount">
+					<option value = "1">1</option>
+					<option value = "2">2</option>
+					<option value = "3">3</option>
+					<option value = "4">4</option>
+					<option value = "5">5</option>
+					</select>
 				  <br><br>
 			      </form>
 					<h1 id = "resultslable"scope="col">{{word_translated_list[7]}}:</h1>
@@ -54,10 +60,16 @@
       				<p id = "error" class="error"><strong>{{ error }}</strong>
     				{% endif %}
 				<ol>
+					{% for number in clusterlist %}
+					<li></li>
 					{% for item in sentence_List %}
-					<li>{{item}}</li>
+					<p>{{item}}</p>
+					{% for words in item %}
+					<ul><li>{{words}}</li></ul>
 					{% endfor %}
-				  </ol>
+					{% endfor %}
+					{% endfor %}
+				</ol>
 		</div>
 	</body>
 	<script>$(function() {$("#language").on("change", function(event){$.ajax({data: {language : $("#language").val()},type:"POST",url : "{{url_for('Query')}}", success: function(response) {$("#partOfSpeech").html(response);;;
