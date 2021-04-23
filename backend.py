@@ -33,7 +33,6 @@ def homepage():
             clusteramount = request.form["clusteramount"]
             clusterlist = list(range(1,int(clusteramount)+1))
             sentence_List_clustered = kmeans.KMeansClustering(int(clusteramount),line_ids,language_selected)
-        print(len(sentence_List))
         if len(sentence_List) == 0:
             error = "Error: Word not in corpus"
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
