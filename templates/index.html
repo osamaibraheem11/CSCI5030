@@ -47,6 +47,13 @@
 			<option value = "5">5</option>
 		</select>
 		
+		{% if error %}
+		<div id = "results">
+			<h1 id = "resultslable"scope="col">{{word_translated_list[7]}}:</h1>
+			<p id = "error" class="error"><strong>{{ error }}</strong>
+		</div>
+		{% endif %}
+
 		{% for cluster in sentence_List_clustered %}
 			<div id = "results">
 				<select name = "dropdown">
@@ -55,11 +62,7 @@
 					<option value = "Following Asc">Preceding Asc</option>
 					<option value = "Following Asc">Preceding Desc</option>
 				</select>
-				
 				<h1 id = "resultslable"scope="col">Cluster {{loop.index}}:</h1>
-				{% if error %}
-				<p id = "error" class="error"><strong>{{ error }}</strong>
-				{% endif %}
 				<ol>	
 					{% for item in cluster %}
 						<li>{{item}}</li>
