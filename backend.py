@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/', methods =["GET", "POST"])
 def homepage():
-    sentence_List = []
+    sentence_List_clustered = []
     language_list = []
     clusterlist =[]
     part_of_speech_list = []
@@ -32,13 +32,13 @@ def homepage():
             clusterlist = list(range(1,int(clusteramount)+1))
             sentence_List_clustered = kmeans.KMeansClustering(int(clusteramount),line_ids,language_selected)
             #sentence_List = logic.SQLQuery(f"select Line_Text from {language_selected}_corpus where Line_id in ({line_ids})")
-        if len(sentence_List) == 0:
+        if len(sentence_List_clustered) == 0:
             error = "Error: Word not in corpus"
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
     page_language_list = logic.SQLQuery("select Language_Page from Page_Translation;")
     word_translated_list = logic.SQLQuery("select * from Page_Translation WHERE Language_Page = 'english';")
-    return render_template('index.html', clusterlist = clusterlist ,language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List=sentence_List, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
+    return render_template('index.html', language_list = language_list, part_of_speech_list=part_of_speech_list, sentence_List_clustered=sentence_List_clustered, error=error,page_language_list=page_language_list,word_translated_list=word_translated_list)
 
 @app.route('/Query', methods =["GET", "POST"])
 def Query():
