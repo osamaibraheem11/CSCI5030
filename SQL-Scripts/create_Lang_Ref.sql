@@ -18,4 +18,5 @@ primary key (Lang_ID));
 /* Populate table with data */
 insert into Lang_ref (Lang_Desc, Last_update)
 values ("English", Now()),
-("français", Now());
+("français", Now()),
+("Deutsche", Now());

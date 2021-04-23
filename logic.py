@@ -40,7 +40,8 @@ german_pos_mapping = {
     "APPO":"Präposition","APZR":"Präposition","KOUI":"Präposition","ART":"Artikel","ITJ":"Zwischenruf",
     "KON":"Conjunction","KOKOM":"Conjunction","KOUS":"Conjunction","NN":"Substantiv","PDS":"Pronomen",
     "PIS":"Pronomen","PPER":"Pronomen","PRF":"Pronomen","PPOSS":"Pronomen","PRELS":"Pronomen","PWS":"Pronomen",
-    "NE":"Eigenname","VAFIN":"Verb"
+    "NE":"Eigenname","VAFIN":"Verb","VAIMP":"Verb","VMFIN":"Verb","VMINF":"Verb","VVFIN":"Verb","VVIMP":"Verb",
+    "VVINF":"Verb","VVIZU":"Verb","VVPP":"Verb"
 }
 
 def tuple2list(ExTuple):
@@ -96,17 +97,19 @@ def SQL_log(statment,status,purpose): # this funcation write to a log everytime 
             csvwriter.writerows([headers])
             csvwriter.writerows([row])
 
-def StoreIndexing(dictionary):
-    file = open("indexing.txt", "w")
-    file.write(dictionary)
-    file = open("germanindex.txt","w")
-    file.write(germandictionary)
-    file.close()
+def StoreIndexing(language, dictionary):
+    if language == "english":
+     file = open("indexing.txt", "w")
+     file.write(dictionary)
+    elif language == "Deutsche":
+     file = open("germanindex.txt","w")
+     file.write(dictionary)
+     file.close()
 
 def GetIndexing():
     file = open("indexing.txt", "r")
     dictionary = json.loads(file.read())
     return dictionary
     file = open("germanindex.txt","r")
-    germandictionary = json.loads(file.read())
-    return germandictionary
+    dictionary = json.loads(file.read())
+    return dictionary
