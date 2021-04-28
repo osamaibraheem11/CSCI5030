@@ -14,12 +14,32 @@
 		<form method="POST" action="" >
 		<div id = "header">
 			<h1 id = "appname">Deelingual</h1>
-			<label id = "translate_page"for="page_language">{{word_translated_list[6]}}</label>
-			<select id="page_language" name ="page_language">
-				{% for page_language in page_language_list %}
-				<option value="{{page_language}}">{{page_language}}</option>
-			{%endfor%}
-			</select>
+			<div id = "translate_page_div" >
+				<label id = "translate_page"for="page_language">{{word_translated_list[6]}}</label>
+				<select id="page_language" name ="page_language">
+					{% for page_language in page_language_list %}
+					<option value="{{page_language}}">{{page_language}}</option>
+				{%endfor%}
+				</select>
+			</div>
+			<div id = "accessibility">
+				Accessibility List:
+				<label class="switch">
+					Invert Colors
+					<input type="checkbox">
+					<span class="slider"></span>
+				  </label>
+				  <label class="switch">
+					Larger Font Size
+					<input type="checkbox">
+					<span class="slider"></span>
+				  </label>
+				  <label class="switch">
+					Larger Cursor
+					<input type="checkbox">
+					<span class="slider"></span>
+				  </label>
+			</div>
 		</div>
 		<div id = "SearchForm">
 				<input id = "searchbar"type="text" name="word" placeholder="{{word_translated_list[4]}}"
