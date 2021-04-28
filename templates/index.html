@@ -38,7 +38,7 @@
 				<option value="{{PartOfSpeech}}">{{PartOfSpeech}}</option>
 			{% endfor %}
 			</select>
-		<label id = "clustermountlable"for="clustermount">Choose amount of clusters: </label>
+		<label id = "clustermountlable"for="clustermount">Choose amount of clusters </label>
 		<select name = "clusteramount" id = "clusteramount">
 			<option value = "1">1</option>
 			<option value = "2">2</option>
@@ -83,6 +83,7 @@
 		$("input[type=text]").attr("placeholder", response[4]);
 		$("#resultslable").html(response[7]);
 		$("#error").html(console.log(response[3]));
+		$("#clustermountlable").html(console.log(response[9]));
 		$("#language_translate").html(response[1]);}})});});</script>
 	  <script>if (document.getElementById("error").innerHTML.length > 0) {
 		document.getElementById("results").style.backgroundColor = "crimson"
