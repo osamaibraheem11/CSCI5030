@@ -14,11 +14,12 @@ create table Page_Translation (
 	Translate_Page_Translation LONGTEXT NOT NULL,
     Results_Translation LONGTEXT NOT NULL,
     Submit_Translation LONGTEXT NOT NULL,
-    number_of_cluster LONGTEXT NOT NULL);
+    number_of_cluster LONGTEXT NOT NULL,
+    cluster_Translation LONGTEXT NOT NULL);
 
 
 /* Populate English data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("English",
 "Language",
 "Part of Speech",
@@ -28,23 +29,25 @@ values ("English",
 "Translate page",
 "Results",
 "Submit",
-"Number of clusters");
+"Number of clusters",
+"Cluster");
 
 /* Populate French data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("French",
 "Langue",
-"parties du discours",
+"Parties du discours",
 "Erreur",
 "Entrez le mot",
 "Mot pas dans le corpus",
 "Traduire la page",
 "Résultats",
-"soumettre",
-"Nombre de clusters");
+"Soumettre",
+"Nombre de clusters",
+"Groupe");
 
 /* Populate Spanish data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("Spanish",
 "Idioma ",
 "Partes de la oración",
@@ -54,23 +57,25 @@ values ("Spanish",
 "Traducir página",
 "Resultados",
 "Enviar",
-"Numero de clusters");
+"Numero de clusters",
+"Grupo");
 
 /* Populate Irish data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("Irish",
 "Teanga",
 "codanna den chaint",
-"earráid",
+"Earráid",
 "Iontráil an focal",
 "Focal nach bhfuil sa chorpas ",
 "Aistrigh leathanach",
 "Torthaí",
-"cuir isteach",
-"Líon na mbraislí");
+"Cuir isteach",
+"Líon na mbraislí",
+"Braisle");
 
 /* Populate Arabic data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("Arabic",
 "لغة",
 "أجزاء من الكلام",
@@ -80,10 +85,11 @@ values ("Arabic",
 "ترجمة الصفحة",
 "نتائج",
 "يقدم",
-"عدد العناقيد");
+"عدد العناقيد",
+"تجمع");
 
 /* Populate Hindi data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("Hindi",
 "भाषा",
 "शब्दभेद",
@@ -93,10 +99,11 @@ values ("Hindi",
 "अनुवाद पृष्ठ",
 "परिणाम",
 "प्रस्तुत",
-"गुच्छों की संख्या");
+"गुच्छों की संख्या",
+"समूह");
 
 /* Populate  Chinese data into table */    
-insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
 values ("Chinese",
 "语言",
 "词性",
@@ -106,10 +113,11 @@ values ("Chinese",
 "翻译页面",
 "结果",
 "提交",
-"集群數");
+"集群數",
+"簇");
 
 /* Populate German data into table */    
- insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
  values ("German",
  "Sprache",
  "Teile der Rede",
@@ -118,11 +126,12 @@ values ("Chinese",
  "Wort nicht im Korpus",
  "Seite übersetzen",
  "Ergebnisse",
- "einreichen",
- "Anzahl der Cluster");
+ "Einreichen",
+ "Anzahl der Cluster",
+ "Cluster");
  
  /* Populate Urdu data into table */    
- insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster)
+insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation,number_of_cluster,cluster_Translation)
  values ("Urdu",
  "زبان",
  "تقریر کے کچھ حصے",
@@ -132,4 +141,5 @@ values ("Chinese",
  "زبان کا انتخاب کریں",
  "نتیجہ",
  "جمع کرائیں",
- "گروپوں کی تعداد");
+ "گروپوں کی تعداد",
+ "جھرمٹ");
