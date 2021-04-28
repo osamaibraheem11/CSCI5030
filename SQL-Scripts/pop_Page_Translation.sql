@@ -13,20 +13,22 @@ create table Page_Translation (
 	Results_Error_Translation LONGTEXT NOT NULL,
 	Translate_Page_Translation LONGTEXT NOT NULL,
     Results_Translation LONGTEXT NOT NULL,
-    Submit_Translation LONGTEXT NOT NULL);
+    Submit_Translation LONGTEXT NOT NULL,
+    number_of_cluster LONGTEXT NOT NULL);
 
 
 /* Populate English data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
 values ("English",
 "Language",
-"Parts of Speech",
+"Part of Speech",
 "Error",
 "Enter the word",
 "Word not in corpus",
 "Translate page",
 "Results",
-"Submit");
+"Submit",
+"Number of clusters");
 
 /* Populate French data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -38,7 +40,8 @@ values ("French",
 "Mot pas dans le corpus",
 "Traduire la page",
 "Résultats",
-"soumettre");
+"soumettre",
+"Nombre de clusters");
 
 /* Populate Spanish data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -50,7 +53,8 @@ values ("Spanish",
 "Palabra no en corpus",
 "Traducir página",
 "Resultados",
-"Enviar");
+"Enviar",
+"Numero de clusters");
 
 /* Populate Irish data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -62,7 +66,8 @@ values ("Irish",
 "Focal nach bhfuil sa chorpas ",
 "Aistrigh leathanach",
 "Torthaí",
-"cuir isteach");
+"cuir isteach",
+"Líon na mbraislí");
 
 /* Populate Arabic data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -74,7 +79,8 @@ values ("Arabic",
 "كلمة ليست في المدونة",
 "ترجمة الصفحة",
 "نتائج",
-"يقدم");
+"يقدم",
+"عدد العناقيد");
 
 /* Populate Hindi data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -86,7 +92,8 @@ values ("Hindi",
 "शब्द कॉर्पस में नहीं",
 "अनुवाद पृष्ठ",
 "परिणाम",
-"प्रस्तुत");
+"प्रस्तुत",
+"गुच्छों की संख्या");
 
 /* Populate  Chinese data into table */    
 insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -98,7 +105,8 @@ values ("Chinese",
 "单词不在语料库中",
 "翻译页面",
 "结果",
-"提交");
+"提交",
+"集群數");
 
 /* Populate German data into table */    
  insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -110,7 +118,8 @@ values ("Chinese",
  "Wort nicht im Korpus",
  "Seite übersetzen",
  "Ergebnisse",
- "einreichen");
+ "einreichen",
+ "Anzahl der Cluster");
  
  /* Populate German data into table */    
  insert into Page_Translation (Language_Page, Language_Translation, POS_Translation, Error_Translation, PlaceHolder_Translation,Results_Error_Translation,Translate_Page_Translation,Results_Translation,Submit_Translation)
@@ -119,7 +128,8 @@ values ("Chinese",
  "تقریر کے کچھ حصے",
  "غلطی",
  "لفظ داخل کریں",
- "لفظ داخل کریں",
+ "لفظ کارپس میں نہیں",
  "زبان کا انتخاب کریں",
  "نتیجہ",
- "نتیجہ");
+ "جمع کرائیں",
+ "گروپوں کی تعداد");
