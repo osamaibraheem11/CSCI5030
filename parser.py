@@ -2,8 +2,6 @@
 # Created on: 03/13/2021
 # Description: Parse a corpus and dump the sentences into the database 
 
-# NLTK is the library used for working with human language data for applying in statistical natural language processing (NLP)
-import nltk.data
 import logic
 import datetime
 import sys
@@ -11,7 +9,6 @@ from os import listdir
 from os.path import isfile, join
 from collections import defaultdict
 import json
-nltk.download('punkt')
 
 # Example path: 'E:\\SLU\\Sem1\\Principles of SD\\Project Material\\brown'
 path = input("Enter path of the corpus directory: ")
@@ -28,15 +25,17 @@ for file_name in listdir(path):
 line_id = 1
 document_id = 1
 values = ""
+SPLIT_CHAR = '###'
 dictionary = defaultdict(list)
 for file_name in file_name_list:
     # ignore the files CONTENTS and README
     if (file_name != "CONTENTS") and (file_name != "README"):
         file_path = path + '/' + file_name
         with open(file_path, 'r') as file:
-            text = file.read().replace('\n', '')
-        sent_detector = nltk.data.load('tokenizers/punkt/' + language.lower() + '.pickle')
-        sentence_list = sent_detector.tokenize(text.strip())
+            text = file.read()
+        text = text.replace('\n', '').replace('\t', '')
+        text = text.replace('./.', SPLIT_CHAR).replace('?/?', SPLIT_CHAR).replace('!/!', SPLIT_CHAR)
+        sentence_list = text.split(SPLIT_CHAR)
         for sentence in sentence_list:
             # form the values string required in insert query
             values += "(" + language_id + ", " + str(document_id) + ", " + "'" + file_name + "', " + "\"" + sentence + "\", " + "'" + str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + "'),"
