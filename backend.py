@@ -14,6 +14,7 @@ def homepage():
     language_list = []
     clusterlist =[]
     part_of_speech_list = []
+    page_language_list = []
     error = ""
     # Get the indexing in memory so that we have it until the application is closed
     dictionary = logic.GetIndexing()
