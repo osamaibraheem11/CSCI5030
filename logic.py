@@ -4,6 +4,7 @@ from flaskext.mysql import MySQL
 from datetime import datetime
 import logic
 import itertools
+import json
 import csv
 import os.path
 import json
@@ -20,6 +21,11 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'CSCI5030@SLU2021'
 app.config['MYSQL_DATABASE_DB'] = 'wordsense'
+
+#app.config['MYSQL_HOST'] = 'localhost'
+#app.config['MYSQL_DATABASE_USER'] = 'pnkls'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+#app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 mysql = MySQL(app)
 conn = mysql.connect()
@@ -48,6 +54,24 @@ def tuple2list(ExTuple):
     ExList = list(itertools.chain(*ExTuple))
     return ExList 
 
+
+
+def VectorData(statment):
+    try:
+        cursor.execute(statment)
+        conn.commit()
+        data = cursor.fetchall()
+        status = "OKAY"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+        return data
+    except:
+        status = "ERROR"
+        purpose = "PRODUCTION"
+        SQL_log(statment,status,purpose)
+
+
+
 def SQLQuery(statment):
     try:
         cursor.execute(statment)
@@ -70,7 +94,6 @@ def SQLInsertQuery(statment):
         status = "OKAY"
         purpose = "PRODUCTION"
         SQL_log(statment,status,purpose)
-        return data
     except:
         status = "ERROR"
         purpose = "PRODUCTION"
@@ -81,7 +104,7 @@ def GetLanguageId(language):
     if len(language_id_list) == 0:
         return -1
     else:
-        print("Not Found")
+        return language_id_list[0]
 
 def SQL_log(statment,status,purpose): # this funcation write to a log everytime a SQL query is ran. This is helpful to see changes to the database. 
     now = datetime.now()
@@ -97,19 +120,42 @@ def SQL_log(statment,status,purpose): # this funcation write to a log everytime 
             csvwriter.writerows([headers])
             csvwriter.writerows([row])
 
-def StoreIndexing(language, dictionary):
-    if language == "english":
-     file = open("indexing.txt", "w")
-     file.write(dictionary)
-    elif language == "Deutsche":
-     file = open("germanindex.txt","w")
-     file.write(dictionary)
-     file.close()
+def CreateIndexing(sentence, line_id, dictionary):
+    if line_id > 0:
+        word_list = sentence.split()
+        # number of parts formed for each tagged word in the corpus(word/pos)
+        tagged_word_parts = 2   
+        for word in word_list:
+            # skip untagged words
+            if(len(word.split('/')) != tagged_word_parts):
+                continue
+            subtag = (word.split('/')[1]).upper()
+            # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
+            subtag = subtag.split('-TL')[0]
+            if(subtag in logic.english_pos_mapping):
+                generalized_pos = logic.english_pos_mapping[subtag]
+            else:
+                generalized_pos = subtag        
+            word = (word.split('/')[0] + "/" + generalized_pos).lower()
+            dictionary.setdefault(word, []).append(line_id)        
+    return dictionary
+
+def StoreIndexing(dictionary, filename):
+    file = open(filename, "w")
+    file.write(dictionary)
+    file.close()
 
 def GetIndexing():
-    file = open("indexing.txt", "r")
-    dictionary = json.loads(file.read())
+    dictionary = {}
+    if(os.path.exists("indexing.txt")):
+        file = open("indexing.txt", "r")
+        dictionary = json.loads(file.read())
     return dictionary
-    file = open("germanindex.txt","r")
-    dictionary = json.loads(file.read())
-    return dictionary
+    
+def isCorpusLoaded(corpus):
+    query = f"select count(*) from {corpus}"
+    count_list = SQLQuery(query)
+    if(count_list[0] == 0):
+        return False
+    else:
+        return True
