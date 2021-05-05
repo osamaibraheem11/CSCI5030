@@ -14,12 +14,27 @@
 		<form method="POST" action="" >
 		<div id = "header">
 			<h1 id = "appname">Deelingual</h1>
-			<label id = "translate_page"for="page_language">{{word_translated_list[6]}}</label>
-			<select id="page_language" name ="page_language">
-				{% for page_language in page_language_list %}
-				<option value="{{page_language}}">{{page_language}}</option>
-			{%endfor%}
-			</select>
+			<div id = "translate_page_div" >
+				<label id = "translate_page"for="page_language">{{word_translated_list[6]}}</label>
+				<select id="page_language" name ="page_language">
+					{% for page_language in page_language_list %}
+					<option value="{{page_language}}">{{page_language}}</option>
+				{%endfor%}
+				</select>
+			</div>
+			<div id = "accessibility">
+				Accessibility List:
+				<label class="switch">
+					Invert Colors
+					<input id = "Invert_colors"type="checkbox">
+					<span class="slider"></span>
+				  </label>
+				  <label class="switch">
+					Larger Font Size
+					<input id = "Font_size"type="checkbox">
+					<span class="slider"></span>
+				  </label>
+			</div>
 		</div>
 		<div id = "SearchForm">
 				<input id = "searchbar"type="text" name="word" placeholder="{{word_translated_list[4]}}"
@@ -89,6 +104,35 @@
 		document.getElementById("results").style.backgroundColor = "crimson"
 	} 
 	</script>
+	<script>var invertcolors = false;
+			var fontsize = false;
+		$("#Invert_colors").on('change', function() {
+			if ($(this).is(':checked')) {
+				invertcolors = $(this).is(':checked');
+				document.getElementById("language_translate").style.color = "white";
+				document.getElementById("part_of_speech_translate").style.color = "white";
+				document.getElementById("clustermountlable").style.color = "white";
+				document.body.id = "body-invert"// To verify
+			}
+			else {
+				invertcolors = $(this).is(':checked');
+				document.getElementById("language_translate").style.color = "black";
+				document.getElementById("part_of_speech_translate").style.color = "black";
+				document.getElementById("clustermountlable").style.color = "black";
+				document.body.id = ""
+			}
+		});
+		$("#Font_size").on('change', function() {
+			if ($(this).is(':checked')) {
+				fontsize = $(this).is(':checked');
+				document.body.style.fontSize = "xx-large"// To verify
+			}
+			else {
+				fontsize = $(this).is(':checked');
+			   document.body.style.fontSize = "medium"
+			}
+		});
+		</script>
 </html>
 
 
