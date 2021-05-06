@@ -1,3 +1,6 @@
+#body-invert{
+    filter: invert(100%);
+}
 #header{
     border-style: solid ;
     border-color: black;
@@ -8,7 +11,7 @@
 }
 #appname{
     display: inline;
-    margin-right: 55%;
+    margin-right: 10%;
 }
 #page_language{
     display: inline;
@@ -74,4 +77,12 @@ form {
   
 .active:after {
     content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+#accessibility{
+   display: inline;
+}
+#translate_page_div{
+    display: inline;
+    margin-left: 5%;
+    margin-right: 5%;
 }
