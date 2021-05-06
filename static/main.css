@@ -26,11 +26,12 @@
 
 }
 #results{
-    margin-top: 4%;
     border-style: double;
     background-color: rgb(232,244,248);
     overflow: scroll;
     max-height: 350px;
+    display: none;
+    padding: 1%;
 }
 #resultslable{
     text-align: center;
@@ -40,4 +41,37 @@ form {
 }
 #SearchForm{
     display: inline!important;
+}
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 1%;
+    margin-top: 4%;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 150%;
+}
+.preview{
+    border-style: double;
+    background-color: rgb(232,244,248);
+    display: block;
+    padding: 1%;
+}
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 80%;
+    color: white;
+    float: left;
+    margin-left: 1%;
+}
+  
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
