@@ -29,11 +29,11 @@
 
 }
 #results{
+    margin-top: 4%;
     border-style: double;
     background-color: rgb(232,244,248);
     overflow: scroll;
     max-height: 350px;
-    display: none;
     padding: 1%;
 }
 #resultslable{
@@ -56,6 +56,14 @@ form {
     text-align: center;
     outline: none;
     font-size: 150%;
+}
+.content{
+    display: none;
+    border-style: double;
+    background-color: rgb(232,244,248);
+    overflow: scroll;
+    max-height: 350px;
+    padding: 1%;
 }
 .preview{
     border-style: double;
