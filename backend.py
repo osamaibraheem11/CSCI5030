@@ -17,11 +17,17 @@ def homepage():
     page_language_list = []
     error = ""
     # Get the indexing in memory so that we have it until the application is closed
-    dictionary = logic.GetIndexing()
-    if(len(dictionary) == 0):
+    english_dictionary = logic.GetIndexing("english")
+    german_dictionary = logic.GetIndexing("deutsche")
+    dictionary = {}
+    if(len(english_dictionary) == 0):
         error = "Indexing file is not present"
     if request.method == "POST":
         language_selected = request.form.get('language')
+        if language_selected == "english":
+            dictionary = english_dictionary
+        elif language_selected == "deutsche":
+            dictionary = german_dictionary
         Lang_ID = logic.GetLanguageId(language_selected)
         part_of_speech_selected = request.form.get('partOfSpeech')
         word_selected = (request.form.get('word') + '/' + request.form.get('partOfSpeech')).lower()

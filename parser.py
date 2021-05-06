@@ -44,26 +44,31 @@ def main():
     line_id = 1
     document_id = 1
     values = ""
+    file_name = ""
     dictionary = defaultdict(list)
     if language_id == "1":
         sentence_list = parseEnglishCorpus(path)
+        file_name = "brown.txt"
     elif language_id == "3":
         sentence_list = parseGermanCorpus(path)
+        file_name = "German_corpus.txt"
     elif language_id == "-1":
         sys.exit("Language not found in the database.")
 
     for sentence in sentence_list:
         # form the values string required in insert query
         values += "(" + language_id + ", " + str(document_id) + ", " + "'" + file_name + "', " + "\"" + sentence + "\", " + "'" + str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) + "'),"
-        dictionary = logic.CreateIndexing(sentence, line_id, dictionary)
+        dictionary = logic.CreateIndexing(language, sentence, line_id, dictionary)
         line_id += 1
     # remove last comma from values string    
     values = values[:-1]
+    if language.lower() == "deutsche":
+        language = "german"
     corpus_table = language.lower() + "_corpus"
     query = "insert into " + corpus_table + " (Lang_ID, Doc_ID, Doc_Name, Line_Text, Last_Update) values " + values
     if(not logic.isCorpusLoaded(corpus_table)):
         logic.SQLInsertQuery(query)
     document_id += 1
-    logic.StoreIndexing(json.dumps(dictionary), 'indexing.txt')
+    logic.StoreIndexing(language, json.dumps(dictionary))
 
 main()

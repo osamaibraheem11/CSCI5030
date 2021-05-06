@@ -12,10 +12,10 @@ import json
 
 app = Flask(__name__)
 
-# app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
-# app.config['MYSQL_USER'] = 'Osama'
-# app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
-# app.config['MYSQL_DATABASE_DB'] = 'wordsense'
+#app.config['MYSQL_HOST'] = 'Osamas-MacBook-Pro.local'
+#app.config['MYSQL_USER'] = 'Osama'
+#app.config['MYSQL_PASSWORD'] = 'CSCI5030SLU2021'
+#app.config['MYSQL_DATABASE_DB'] = 'wordsense'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -44,10 +44,12 @@ english_pos_mapping = {
 german_pos_mapping = {
     "ADJA":"Adjektiv","ADJD":"Adjektiv","ADV":"Adverb","PAV":"Adverb","PWAV":"Adverb","APPR":"Präposition","APPRART":"Präposition",
     "APPO":"Präposition","APZR":"Präposition","KOUI":"Präposition","ART":"Artikel","ITJ":"Zwischenruf",
-    "KON":"Conjunction","KOKOM":"Conjunction","KOUS":"Conjunction","NN":"Substantiv","PDS":"Pronomen",
-    "PIS":"Pronomen","PPER":"Pronomen","PRF":"Pronomen","PPOSS":"Pronomen","PRELS":"Pronomen","PWS":"Pronomen",
-    "NE":"Eigenname","VAFIN":"Verb","VAIMP":"Verb","VMFIN":"Verb","VMINF":"Verb","VVFIN":"Verb","VVIMP":"Verb",
-    "VVINF":"Verb","VVIZU":"Verb","VVPP":"Verb"
+    "KON":"Conjunction","KOKOM":"Conjunction","KOUS":"Conjunction","NN":"Substantiv","PDS":"Pronomen","PDAT":"Pronomen","PIAT":"Pronomen",
+    "PIS":"Pronomen","PPER":"Pronomen","PRF":"Pronomen","PPOSS":"Pronomen","PPOSAT":"Pronomen","PRELS":"Pronomen","PWS":"Pronomen",
+    "PRELAT":"Pronomen","PWAT":"Pronomen","NE":"Eigenname","VAFIN":"Verb","VAIMP":"Verb","VMFIN":"Verb","VMINF":"Verb",
+    "VVFIN":"Verb","VVIMP":"Verb","VAINF":"Verb","VAPP":"Verb","VMPP":"Verb","VVINF":"Verb","VVIZU":"Verb","VVPP":"Verb",
+    "PTKA":"Partikel","PTKANT":"Partikel","PTKNEG":"Partikel","PTKVZ":"Partikel","PTKZU":"Partikel","FM":"Fremdsprachichles",
+    "TRUNC":"Komposition"
 }
 
 def tuple2list(ExTuple):
@@ -88,6 +90,7 @@ def SQLQuery(statment):
     
 
 def SQLInsertQuery(statment):
+    print(statment)
     try:
         cursor.execute(statment)
         conn.commit()
@@ -120,36 +123,60 @@ def SQL_log(statment,status,purpose): # this funcation write to a log everytime 
             csvwriter.writerows([headers])
             csvwriter.writerows([row])
 
-def CreateIndexing(sentence, line_id, dictionary):
+def CreateIndexing(language, sentence, line_id, dictionary):
     if line_id > 0:
         word_list = sentence.split()
         # number of parts formed for each tagged word in the corpus(word/pos)
-        tagged_word_parts = 2   
-        for word in word_list:
-            # skip untagged words
-            if(len(word.split('/')) != tagged_word_parts):
-                continue
-            subtag = (word.split('/')[1]).upper()
-            # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
-            subtag = subtag.split('-TL')[0]
-            if(subtag in logic.english_pos_mapping):
-                generalized_pos = logic.english_pos_mapping[subtag]
-            else:
-                generalized_pos = subtag        
-            word = (word.split('/')[0] + "/" + generalized_pos).lower()
-            dictionary.setdefault(word, []).append(line_id)        
+        tagged_word_parts = 2
+        if language.lower() == "english":   
+            for word in word_list:
+                # skip untagged words
+                if(len(word.split('/')) != tagged_word_parts):
+                    continue
+                subtag = (word.split('/')[1]).upper()
+                # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
+                subtag = subtag.split('-TL')[0]
+                if(subtag in logic.english_pos_mapping):
+                    generalized_pos = logic.english_pos_mapping[subtag]
+                else:
+                    generalized_pos = subtag        
+                word = (word.split('/')[0] + "/" + generalized_pos).lower()
+                dictionary.setdefault(word, []).append(line_id)
+        elif language.lower() == "deutsche":
+            for word in word_list:
+                # skip untagged words
+                if(len(word.split('|')) != tagged_word_parts):
+                    continue
+                subtag = (word.split('|')[1]).upper()
+                # ignore CARD suffix in subtags since they are just to indicate the cardinal numbers
+                subtag = subtag.split('CARD')[0]
+                if(subtag in logic.german_pos_mapping):
+                    generalized_pos = logic.german_pos_mapping[subtag]
+                else:
+                    generalized_pos = subtag        
+                word = (word.split('|')[0] + "|" + generalized_pos).lower()
+                dictionary.setdefault(word, []).append(line_id)
     return dictionary
 
-def StoreIndexing(dictionary, filename):
+def StoreIndexing(language, dictionary, filename):
+    if language.lower() == "english":
+        filename = 'indexing.txt'
+    elif language.lower() == "deutsche":
+        filename = 'germanindexing.txt'
     file = open(filename, "w")
     file.write(dictionary)
     file.close()
 
-def GetIndexing():
+def GetIndexing(language):
     dictionary = {}
-    if(os.path.exists("indexing.txt")):
-        file = open("indexing.txt", "r")
-        dictionary = json.loads(file.read())
+    if language.lower() == "english":
+        if(os.path.exists("indexing.txt")):
+            file = open("indexing.txt", "r")
+            dictionary = json.loads(file.read())
+    elif language.lower() == "deutsche":
+        if(os.path.exists("germanindexing.txt")):
+            file = open("germanindexing.txt", "r")
+            dictionary = json.loads(file.read())
     return dictionary
     
 def isCorpusLoaded(corpus):

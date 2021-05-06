@@ -1,6 +1,6 @@
 /* Change Log															*/
 /* Beta - 4/4/2021 - Garrett Reed - Initial Creation - Create German Reference Tables and Data	*/
-/* Beta - 1/21/2021 - Raju Karmuri - Added missing parts of speech to the Script */
+/* Beta - 5/5/2021 - Raju Karmuri - Added missing parts of speech to the Script */
 
 USE wordsense;
 
@@ -67,6 +67,18 @@ values ((
 	select distinct lang_id 
     from Lang_ref 
     where Lang_Desc = "Deutsche"),"Eigenname",Now()),
+        ((
+	select distinct lang_id 
+    from Lang_ref 
+    where Lang_Desc = "Deutsche"),"Partikel",Now()),
+    ((
+	select distinct lang_id 
+    from Lang_ref 
+    where Lang_Desc = "Deutsche"),"Fremdsprachichles",Now()),
+    ((
+    select distinct lang_id
+    from Lang_ref
+    where Lang_Desc = "Deutsche"),"Komposition",Now()),
     ((
 	select distinct lang_id 
     from Lang_ref 
