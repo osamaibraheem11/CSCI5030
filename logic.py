@@ -90,7 +90,6 @@ def SQLQuery(statment):
     
 
 def SQLInsertQuery(statment):
-    print(statment)
     try:
         cursor.execute(statment)
         conn.commit()
