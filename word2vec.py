@@ -18,4 +18,4 @@ CorpusName = input("What is the name of your corpus (this will be the name of mo
 AllSentences = MyCorpus(PathToFile)
 model = Word2Vec(sentences=AllSentences, window=5, min_count=2, workers=8,size=248, iter=25)
 model.save(f"models/{CorpusName.lower()}.model")
-print(model.wv.most_similar('son'))
+
