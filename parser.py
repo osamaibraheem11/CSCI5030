@@ -13,13 +13,10 @@ import csv
 
 def PreProcess(row):
     untagged_row = row[0]
-    untagged_row = untagged_row.split()
-    untagged_row = untagged_row[1:-1]
-    untagged_row = " ".join(untagged_row) 
+    untagged_row_words = untagged_row.split()
+    untagged_row_words = untagged_row_words[1:]
+    untagged_row = " ".join(untagged_row_words) 
     tagged_row = row[1]
-    tagged_row = tagged_row.split()
-    tagged_row = tagged_row[:-1]
-    tagged_row = " ".join(tagged_row)
     return tagged_row, untagged_row
 
 def ParseCorpus(language, path):
