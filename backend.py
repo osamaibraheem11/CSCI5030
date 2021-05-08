@@ -34,21 +34,20 @@ def homepage():
         Lang_ID = logic.GetLanguageId(language_selected)
         part_of_speech_selected = request.form.get('partOfSpeech')
         word_selected = (request.form.get('word') + '/' + request.form.get('partOfSpeech')).lower()
-        print(word_selected)
         if(not logic.isCorpusLoaded(language_selected + "_corpus")):
             error = "Corpus is not loaded into the database"
-        # ignore first and last characters i.e. '[' and ']' to get the list of line ids as a string like "1,3,6,7,...""
+        
         if word_selected in dictionary:
+            # ignore first and last characters i.e. '[' and ']' to get the list of line ids as a string like "1,3,6,7,...""
             line_ids= str(dictionary[word_selected])[1:][:-1]
             print(line_ids)
             sentence_List = logic.SQLQuery(f"select Line_Text from {language_selected}_corpus where Line_id in ({line_ids})")
             clusteramount = request.form["clusteramount"]
             clusterlist = list(range(1,int(clusteramount)+1))
             sentence_List_clustered = kmeans.KMeansClustering(int(clusteramount),line_ids,language_selected)
-        print(sentence_List)
-        print(sentence_List_clustered)
         if len(sentence_List) == 0:
             error = "Error: Word not in corpus"
+            
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
     part_of_speech_list = logic.SQLQuery("SELECT Part_Desc FROM Speech_Parts WHERE Lang_ID = 1;")
     page_language_list = logic.SQLQuery("select Language_Page from Page_Translation;")
