@@ -4,7 +4,7 @@ import csv
 pathuntagged = input('Enter path to untagged corpus?')
 
 
-FileData = open("/Users/osamaibraheem/Downloads/deu-de_web-wrt_2019_1K/deu-de_web-wrt_2019_1K-sentences.txt", "r")
+FileData = open(pathuntagged, "r")
 
 nlp = spacy.load("de_dep_news_trf")
     
