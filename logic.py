@@ -32,24 +32,21 @@ conn = mysql.connect()
 cursor = conn.cursor()
 
 english_pos_mapping = {
-    "NN":"Noun","NN$":"Noun","NNS":"Noun","NNS$":"Noun","NP":"Noun","NP$":"Noun","NPS":"Noun","NPS$":"Noun",
-    "NR":"Noun","NRS":"Noun","VB":"Verb","VBD":"Verb","VBG":"Verb","VBN":"Verb","VBP":"Verb","VBZ":"Verb",
-    "PN":"Pronoun","PN$":"Pronoun","PP$":"Pronoun","PP$$":"Pronoun","PPL":"Pronoun","PPLS":"Pronoun",
-    "PPO":"Pronoun","PPS":"Pronoun","PPSS":"Pronoun","WP$":"Pronoun","WPO":"Pronoun","WPS":"Pronoun",
-    "JJ":"Adjective","JJR":"Adjective","JJS":"Adjective","JJT":"Adjective","RB":"Adverb","RBR":"Adverb",
-    "RBT":"Adverb","RN":"Adverb","RP":"Adverb","WRB":"Adverb","CC":"Conjunction","CS":"Conjunction",
-    "AT":"Article","UH":"Interjection"
+    "NOUN":"Noun","PROPN":"Noun","VERB":"Verb","AUX":"Verb",
+    "PRON":"Pronoun","ADJ":"Adjective","ADP":"Adposition","ADV":"Adverb","CONJ":"Conjunction","SCONJ":"Conjunction",
+    "INTJ":"Interjection","PART":"Particle","PUNCT":"Punctuation","NUM":"Numeral","DET":"Determiner","SYM":"Symbol","X":"other"
 }
 
 german_pos_mapping = {
-    "ADJA":"Adjektiv","ADJD":"Adjektiv","ADV":"Adverb","PAV":"Adverb","PWAV":"Adverb","APPR":"Präposition","APPRART":"Präposition",
-    "APPO":"Präposition","APZR":"Präposition","KOUI":"Präposition","ART":"Artikel","ITJ":"Zwischenruf",
-    "KON":"Conjunction","KOKOM":"Conjunction","KOUS":"Conjunction","NN":"Substantiv","PDS":"Pronomen","PDAT":"Pronomen","PIAT":"Pronomen",
-    "PIS":"Pronomen","PPER":"Pronomen","PRF":"Pronomen","PPOSS":"Pronomen","PPOSAT":"Pronomen","PRELS":"Pronomen","PWS":"Pronomen",
-    "PRELAT":"Pronomen","PWAT":"Pronomen","NE":"Eigenname","VAFIN":"Verb","VAIMP":"Verb","VMFIN":"Verb","VMINF":"Verb",
-    "VVFIN":"Verb","VVIMP":"Verb","VAINF":"Verb","VAPP":"Verb","VMPP":"Verb","VVINF":"Verb","VVIZU":"Verb","VVPP":"Verb",
-    "PTKA":"Partikel","PTKANT":"Partikel","PTKNEG":"Partikel","PTKVZ":"Partikel","PTKZU":"Partikel","FM":"Fremdsprachichles",
-    "TRUNC":"Komposition"
+    "NOUN":"Substantiv","PROPN":"Substantiv","VERB":"Verb","AUX":"Verb",
+    "PRON":"Pronomen","ADJ":"Adjektiv","ADP":"Adposition","ADV":"Adverb","CONJ":"Konjunktion","SCONJ":"Konjunktion",
+    "INTJ":"Interjektion","TEIL":"Partikel","PUNCT":"Interpunktion","NUM":"Ziffer","DET":"Bestimmer","SYM":"Symbol","X":"andere"
+}
+
+italian_pos_mapping = {
+    "NOUN":"sostantivo","PROPN":"sostantivo","VERBO":"verbo","AUX":"verbo",
+    "PRON":"pronome","ADJ":"aggettivo","ADP":"adposition","ADV":"avverbio","CONJ":"congiunzione","SCONJ":"congiunzione",
+    "INTJ":"interiezione","PARTE":"particella","PUNCT":"punteggiatura","NUM":"numerale","DET":"determinante","SYM":"simbolo","X":"altro"
 }
 
 def tuple2list(ExTuple):
@@ -127,41 +124,34 @@ def CreateIndexing(language, sentence, line_id, dictionary):
         word_list = sentence.split()
         # number of parts formed for each tagged word in the corpus(word/pos)
         tagged_word_parts = 2
-        if language.lower() == "english":   
-            for word in word_list:
-                # skip untagged words
-                if(len(word.split('/')) != tagged_word_parts):
-                    continue
-                subtag = (word.split('/')[1]).upper()
-                # ignore -TL suffix in subtags since they are just to indicate that the word occurs in title
-                subtag = subtag.split('-TL')[0]
-                if(subtag in logic.english_pos_mapping):
-                    generalized_pos = logic.english_pos_mapping[subtag]
-                else:
-                    generalized_pos = subtag        
-                word = (word.split('/')[0] + "/" + generalized_pos).lower()
-                dictionary.setdefault(word, []).append(line_id)
-        elif language.lower() == "deutsche":
-            for word in word_list:
-                # skip untagged words
-                if(len(word.split('|')) != tagged_word_parts):
-                    continue
-                subtag = (word.split('|')[1]).upper()
-                # ignore CARD suffix in subtags since they are just to indicate the cardinal numbers
-                subtag = subtag.split('CARD')[0]
-                if(subtag in logic.german_pos_mapping):
-                    generalized_pos = logic.german_pos_mapping[subtag]
-                else:
-                    generalized_pos = subtag        
-                word = (word.split('|')[0] + "|" + generalized_pos).lower()
-                dictionary.setdefault(word, []).append(line_id)
+        if(language.lower() == "english"):
+            mapping = logic.english_pos_mapping
+        elif(language.lower() == "german"):
+            mapping = logic.german_pos_mapping
+        elif(language.lower() == "italian"):
+            mapping = logic.italian_pos_mapping
+        for word in word_list:
+            if(len(word.split('/')) != tagged_word_parts):
+                continue
+            subtag = (word.split('/')[1]).upper()
+            if(subtag in pos_ignore):
+                continue
+            if(subtag in mapping):
+                generalized_pos = mapping[subtag]
+            else:
+                generalized_pos = subtag        
+            word = (word.split('/')[0] + "/" + generalized_pos).lower()
+            dictionary.setdefault(word, []).append(line_id)
+
     return dictionary
 
 def StoreIndexing(language, dictionary, filename):
     if language.lower() == "english":
         filename = 'indexing.txt'
-    elif language.lower() == "deutsche":
+    elif language.lower() == "german":
         filename = 'germanindexing.txt'
+    elif language.lower() == "italian":
+        filename = 'italianindexing.txt'
     file = open(filename, "w")
     file.write(dictionary)
     file.close()
@@ -172,9 +162,13 @@ def GetIndexing(language):
         if(os.path.exists("indexing.txt")):
             file = open("indexing.txt", "r")
             dictionary = json.loads(file.read())
-    elif language.lower() == "deutsche":
+    elif language.lower() == "german":
         if(os.path.exists("germanindexing.txt")):
             file = open("germanindexing.txt", "r")
+            dictionary = json.loads(file.read())
+    elif language.lower() == "italian":
+        if(os.path.exists("italianindexing.txt")):
+            file = open("italianindexing.txt", "r")
             dictionary = json.loads(file.read())
     return dictionary
     

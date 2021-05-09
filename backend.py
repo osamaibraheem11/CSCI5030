@@ -18,19 +18,25 @@ def homepage():
     error = ""
     # Get the indexing in memory so that we have it until the application is closed
     english_dictionary = logic.GetIndexing("english")
-    german_dictionary = logic.GetIndexing("deutsche")
+    german_dictionary = logic.GetIndexing("german")
+    italian_dictionary = logic.GetIndexing("italian")
     dictionary = {}
     if(len(english_dictionary) == 0):
         error = "Indexing file is not present"
     if request.method == "POST":
         language_selected = request.form.get('language')
-        if language_selected == "english":
+        if language_selected.lower() == "english":
             dictionary = english_dictionary
-        elif language_selected == "deutsche":
+        elif language_selected.lower() == "german":
             dictionary = german_dictionary
+        elif language_selected.lower() == "italian":
+            dictionary = italian_dictionary
+        if(len(dictionary) == 0):
+            error = "Indexing file is not present"
         Lang_ID = logic.GetLanguageId(language_selected)
         part_of_speech_selected = request.form.get('partOfSpeech')
         word_selected = (request.form.get('word') + '/' + request.form.get('partOfSpeech')).lower()
+        print (word_selected)
         if(not logic.isCorpusLoaded(language_selected + "_corpus")):
             error = "Corpus is not loaded into the database"
         # ignore first and last characters i.e. '[' and ']' to get the list of line ids as a string like "1,3,6,7,...""
@@ -40,6 +46,8 @@ def homepage():
             clusteramount = request.form["clusteramount"]
             clusterlist = list(range(1,int(clusteramount)+1))
             sentence_List_clustered = kmeans.KMeansClustering(int(clusteramount),line_ids,language_selected)
+        print(sentence_List)
+        print(sentence_List_clustered)
         if len(sentence_List) == 0:
             error = "Error: Word not in corpus"
     language_list = logic.SQLQuery("SELECT Lang_Desc FROM Lang_Ref;")
