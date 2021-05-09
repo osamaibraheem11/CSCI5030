@@ -1,6 +1,6 @@
 # Author: Pankil Shah
 # Created on: 03/13/2021
-# Description: Parse a corpus and dump the sentences into the database 
+# Description: Parse a corpus, create indexing and dump the sentences into the database 
 
 import logic
 import datetime
@@ -13,13 +13,10 @@ import csv
 
 def PreProcess(row):
     untagged_row = row[0]
-    untagged_row = untagged_row.split()
-    untagged_row = untagged_row[1:-1]
-    untagged_row = " ".join(untagged_row) 
+    untagged_row_words = untagged_row.split()
+    untagged_row_words = untagged_row_words[1:]
+    untagged_row = " ".join(untagged_row_words) 
     tagged_row = row[1]
-    tagged_row = tagged_row.split()
-    tagged_row = tagged_row[:-1]
-    tagged_row = " ".join(tagged_row)
     return tagged_row, untagged_row
 
 def ParseCorpus(language, path):
@@ -30,7 +27,7 @@ def ParseCorpus(language, path):
     file_name = path.split("\\")[-1]
     values = ""
     language_id = str(logic.GetLanguageId(language))
-
+    
     if language_id == "-1":
         sys.exit("Language not found in the database.")
 
